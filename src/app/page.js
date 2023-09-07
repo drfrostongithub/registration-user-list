@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
+import "./style.css"
 import { useState, useEffect } from "react";
-import { SketchPicker } from "react-color";
 
 export default function Home() {
   const [currentView, setCurrentView] = useState("registration");
@@ -13,20 +13,18 @@ export default function Home() {
   };
 
   return (
-    <div className='flex justify-center items-center h-screen'>
-      <div className='p-8 rounded shadow-md'>
-        <div className='flex justify-between items-center mb-4'>
-          <h2 className='text-2xl font-semibold'>
+    <div className="flex justify-center items-center h-screen bg-gray-100">
+      <div className="p-6 rounded shadow-md bg-white">
+        <div className="relative mb-4">
+          <h2 className="text-2xl font-semibold">
             {currentView === "registration" ? "Registration" : "User List"}
           </h2>
-          <button
-            className='bg-blue-500 hover:bg-blue-600 text-white font-semibold p-2 rounded-md'
-            onClick={toggleView}
-          >
-            {currentView === "registration"
-              ? "Switch to User List"
-              : "Switch to Registration"}
-          </button>
+          <div className="slider-switch">
+            <button
+              className={`slider-btn ${currentView === "registration" ? "active" : ""}`}
+              onClick={toggleView}
+            ></button>
+          </div>
         </div>
         {currentView === "registration" ? <Registration /> : <UserList />}
       </div>
@@ -36,11 +34,8 @@ export default function Home() {
 
 const Registration = () => {
   const [formData, setFormData] = useState({
-    id: "",
-    name: "",
-    year: "",
-    color: "#FFFFFF",
-    pantone_value: "",
+    email: "",
+    password: "",
   });
 
   const handleChange = (e) => {
@@ -48,13 +43,6 @@ const Registration = () => {
     setFormData({
       ...formData,
       [name]: value,
-    });
-  };
-
-  const handleColorChange = (color) => {
-    setFormData({
-      ...formData,
-      color: color.hex,
     });
   };
 
@@ -79,100 +67,46 @@ const Registration = () => {
     }
   };
 
-  const validYears = Array.from(
-    { length: 50 },
-    (_, i) => new Date().getFullYear() - i
-  );
-
   return (
     <div className='bg-white p-8 rounded shadow-md'>
       <form onSubmit={handleSubmit}>
         <div className='mb-4'>
           <label
-            htmlFor='id'
+            htmlFor='email'
             className='block text-sm font-medium text-gray-700'
           >
-            ID
+            Email
           </label>
           <input
-            type='number'
+            type='email'
             className='mt-1 p-2 border rounded-md w-full'
-            id='id'
-            name='id'
-            value={formData.id}
+            id='email'
+            name='email'
+            value={formData.email}
             onChange={handleChange}
             required
           />
         </div>
         <div className='mb-4'>
           <label
-            htmlFor='name'
+            htmlFor='password'
             className='block text-sm font-medium text-gray-700'
           >
-            Name
+            Password
           </label>
           <input
-            type='text'
+            type='password'
             className='mt-1 p-2 border rounded-md w-full'
-            id='name'
-            name='name'
-            value={formData.name}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className='mb-4'>
-          <label
-            htmlFor='year'
-            className='block text-sm font-medium text-gray-700'
-          >
-            Year
-          </label>
-          <select
-            className='mt-1 p-2 border rounded-md w-full'
-            id='year'
-            name='year'
-            value={formData.year}
-            onChange={handleChange}
-            required
-          >
-            <option value=''>Select a Year</option>
-            {validYears.map((year) => (
-              <option key={year} value={year}>
-                {year}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className='mb-4'>
-          <label
-            htmlFor='color'
-            className='block text-sm font-medium text-gray-700'
-          >
-            Color
-          </label>
-          <SketchPicker color={formData.color} onChange={handleColorChange} />
-        </div>
-        <div className='mb-4'>
-          <label
-            htmlFor='pantone_value'
-            className='block text-sm font-medium text-gray-700'
-          >
-            Pantone Value
-          </label>
-          <input
-            type='text'
-            className='mt-1 p-2 border rounded-md w-full'
-            id='pantone_value'
-            name='pantone_value'
-            value={formData.pantone_value}
+            id='password'
+            name='password'
+            value={formData.password}
             onChange={handleChange}
             required
           />
         </div>
         <button
           type='submit'
-          className='bg-blue-500 hover:bg-blue-600 text-white font-semibold p-2 rounded-md w-full'
+          className='bg-blue-500 hover:bg-blue-600 text-white font-semibold p-2 rounded-md'
         >
           Register
         </button>

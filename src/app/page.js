@@ -1,12 +1,35 @@
 "use client";
+import Image from "next/image";
 import { useState, useEffect } from "react";
 import { SketchPicker } from "react-color";
 
 export default function Home() {
+  const [currentView, setCurrentView] = useState("registration");
+
+  const toggleView = () => {
+    setCurrentView((prevView) =>
+      prevView === "registration" ? "userList" : "registration"
+    );
+  };
+
   return (
     <div className='flex justify-center items-center h-screen'>
-      <Registration />
-      <UserList />
+      <div className='p-8 rounded shadow-md'>
+        <div className='flex justify-between items-center mb-4'>
+          <h2 className='text-2xl font-semibold'>
+            {currentView === "registration" ? "Registration" : "User List"}
+          </h2>
+          <button
+            className='bg-blue-500 hover:bg-blue-600 text-white font-semibold p-2 rounded-md'
+            onClick={toggleView}
+          >
+            {currentView === "registration"
+              ? "Switch to User List"
+              : "Switch to Registration"}
+          </button>
+        </div>
+        {currentView === "registration" ? <Registration /> : <UserList />}
+      </div>
     </div>
   );
 }
@@ -63,7 +86,6 @@ const Registration = () => {
 
   return (
     <div className='bg-white p-8 rounded shadow-md'>
-      <h2 className='text-2xl font-semibold mb-4'>Registration</h2>
       <form onSubmit={handleSubmit}>
         <div className='mb-4'>
           <label
@@ -180,7 +202,6 @@ const UserList = () => {
 
   return (
     <div>
-      <h2 className='text-2xl font-semibold mb-4'>User List</h2>
       <div className='overflow-x-auto'>
         <table className='min-w-full border rounded-lg overflow-hidden'>
           <thead className='bg-gray-200'>
@@ -199,7 +220,15 @@ const UserList = () => {
                 <td className='border px-4 py-2'>{user.first_name}</td>
                 <td className='border px-4 py-2'>{user.last_name}</td>
                 <td className='border px-4 py-2'>{user.email}</td>
-                <td className='border px-4 py-2'>{user.avatar}</td>
+                <td className='border px-4 py-2'>
+                  <Image
+                    src={user.avatar}
+                    alt={`${user.first_name} ${user.last_name}'s Avatar`}
+                    className='w-10 h-10 rounded-full'
+                    width={800}
+                    height={500}
+                  />
+                </td>
               </tr>
             ))}
           </tbody>

@@ -1,0 +1,26 @@
+/* styles.css */
+.slider-switch {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 0;
+  width: 52px;
+  height: 24px;
+  background-color: #ccc;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.slider-btn {
+  width: 50%;
+  height: 100%;
+  background-color: white;
+  border-radius: 50%;
+  transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+}
+
+.slider-btn.active {
+  transform: translateX(100%);
+  background-color: #4299e1;
+}
